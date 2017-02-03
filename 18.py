@@ -4,17 +4,20 @@ from time import sleep
 from io import BytesIO
 import binascii
 
-# # gets the lines that are different between right and left
-# with open("deltas", "r") as delta_file, open("deltas_missing.txt", "w") as deltas_file:
-#     lines = delta_file.readlines()
-#     last_line = 0
-#     for current_line in lines:
-#         for check_line in range(last_line, len(lines)):
-#             if current_line[56:109] == lines[check_line][:53]:
-#                 deltas_file.write(str(check_line))
-#                 deltas_file.write('\n')
-#                 last_line = check_line + 1
-#                 break
+# gets the lines that are different between right and left
+with open("deltas", "r") as delta_file, open("missing_lines.png", "wb") as missing_lines:
+    lines = delta_file.readlines()
+    last_line = 0
+    for current_line in lines:
+        for check_line in range(last_line, len(lines)):
+            if current_line[56:109] == lines[check_line][:53] or lines[check_line][0] == ' ':
+                # missing_lines.write(str(check_line))
+                # missing_lines.write('\n')
+                last_line = check_line + 1
+                break
+            else:
+                missing_lines.write(bytes.fromhex(lines[check_line][:53]))
+                # missing_lines.write('\n')
 
 
 # with open("deltas.txt", "r") as delta_file, open("deltas", "r") as delta, open("hidden.png", "wb") as hidden_file:
@@ -24,23 +27,21 @@ import binascii
 #     for line in lines:
 #          hidden_file.write(bytes.fromhex(img_lines[int(line)][:53]))
 
-with open("real_deltas.txt", "r") as delta_file, open("deltas", "r") as delta, open("real_real_deltas.txt", "w") as hidden_file:
-    lines = delta_file.readlines()
-    img_lines = delta.readlines()
-    last_line = 0
-    skips = 0
-    count = 1
-    for line in lines:
-        if line[0] != '1':
-            skips += 1
-            hidden_file.write(str(count))
-            hidden_file.write('\n')
+# with open("real_deltas.txt", "r") as delta_file, open("deltas", "r") as delta, open("real_real_deltas.txt", "w") as hidden_file:
+#     lines = delta_file.readlines()
+#     img_lines = delta.readlines()
+#     last_line = 0
+#     skips = 0
+#     count = 1
+#     for line in lines:
+#         if line[0] != '1':
+#             skips += 1
+#             hidden_file.write(str(count))
+#             hidden_file.write('\n')
 
-        else:
-            skips += 1
-        count+=1
-
-
+#         else:
+#             skips += 1
+#         count+=1
 
 
 # my_string = ''
